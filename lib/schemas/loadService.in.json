@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "service_description_url": {
+                    "description": "The URL of the resource containing the service description to load.",
+                    "type": "string"
+                },
+                "service_moniker": {
+                    "description": "Service ID to be used to uniquely identify the service. (Optional: Required for anonymous services or to override the service name in the service description.)",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "service_description_url"
+            ],
+            "type": "object"
+        }
+    }
+}

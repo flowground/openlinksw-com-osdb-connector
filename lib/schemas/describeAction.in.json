@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "serviceId": {
+            "required": true,
+            "type": "string"
+        },
+        "actionId": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

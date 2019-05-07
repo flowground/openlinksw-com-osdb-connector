@@ -1,0 +1,204 @@
+{
+    "title": "OSDB REST API v1",
+    "description": "An OpenAPI description of the OpenLink Smart Data Bot REST API v1",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/openlinksw.com/osdb/1.0.0/openapi.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://osdb.openlinksw.com/osdb - OSDB demo server",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "listActions": {
+            "main": "./lib/actions/listActions.js",
+            "title": "List actions",
+            "description": "Returns an array of action descriptions for the actions supported by the given service",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/listActions.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "describeAction": {
+            "main": "./lib/actions/describeAction.js",
+            "title": "Describe action",
+            "description": "Returns a description of a given service action.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/describeAction.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "executeAction": {
+            "main": "./lib/actions/executeAction.js",
+            "title": "Execute action",
+            "description": "Executes a registered service action and returns any output from the action.\nThe data returned in the POST response body may be: \n* the raw action output, \n* a URL encapsulating the action request which executes the action when dereferenced  (only for actions using GET), \n* RDF generated from the action output,\n* a URL to an RDF viewer's display of the generated RDF.\n\nAny parameters required by the action are supplied as a JSON object in the POST body. The parameter types supported are: \"query\", \"header\", \"uri\", \"path\" and \"body\".  The parameter type determines where a supplied parameter value is inserted into the HTTP request constructed by OSDB to invoke the target service action. In addition to native parameters required by the service action, 'Execute action' accepts some OSDB-specific parameters.<br/><br/>\n\n**Examples**\n* ```curl -ik -X POST -d '{ \"latitude\":\"37.7759792\", \"longitude\":\"-122.41823\" }' -H 'Content-Type: application/json' https://osdb.openlinksw.com/osdb/api/v1/actions/uber/products/exec```  \n* ```curl -ikL -X POST -d '{ \"latitude\":\"37.7759792\", \"longitude\":\"-122.41823\", \"osdb:output_type\":\"generate_rdf\", \"osdb:response_format\":\"application/rdf+xml\" }' -H 'Content-Type: application/json' https://osdb.openlinksw.com/osdb/api/v1/actions/uber/products/exec``` \n* ```curl -ikL -X POST -d '{ \"latitude\":\"37.7759792\", \"longitude\":\"-122.41823\", \"osdb:output_type\":\"display_rdf\" }' -H 'Content-Type: application/json' https://osdb.openlinksw.com/osdb/api/v1/actions/uber/products/exec``` \n* ```curl -ik -X POST -d '{ \"q\":\"skiing\", \"osdb:response_format\": \"application/rdf+xml\" }' -H 'Content-Type: application/json' https://osdb.openlinksw.com/osdb/api/v1/actions/facet/search/exec``` \n* ```curl -ik -X POST -d '{ \"q\":\"skiing\", \"osdb:output_type\": \"url_only\" }' -H 'Content-Type: application/json' https://osdb.openlinksw.com/osdb/api/v1/actions/facet/search/exec``` \n* ```curl -ik -X POST -d '{ \"Content-Location\": \"http://demo.openlinksw.co.uk/pubs\", \"osdb:body_data_src_url\": \"http://ods-qa.openlinksw.com/DAV/home/osdb/pubs.csv\", \"extractor\": \"csv\", \"osdb:response_format\": \"application/rdf+xml\", \"osdb:body_data_encoding\": \"text/csv\" }' -H 'Content-Type: application/json' https://osdb.openlinksw.com/osdb/api/v1/actions/csv_transformer/transform/exec```",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/executeAction.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "actionHelp": {
+            "main": "./lib/actions/actionHelp.js",
+            "title": "Action help",
+            "description": "Returns the help text for a given service action",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/actionHelp.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "login": {
+            "main": "./lib/actions/login.js",
+            "title": "Login",
+            "description": "Logs a user into the OSDB server, authenticating them by their WebID and returning an OSDB session ID in cookie osdb.sid",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/login.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "logout": {
+            "main": "./lib/actions/logout.js",
+            "title": "Logout",
+            "description": "Logs a user out of the OSDB server, ending their OSDB session",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/logout.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "listServices": {
+            "main": "./lib/actions/listServices.js",
+            "title": "List services",
+            "description": "Returns descriptions of all services registered with the OSDB server.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/listServices.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "loadService": {
+            "main": "./lib/actions/loadService.js",
+            "title": "Load service",
+            "description": "Loads a service description into the OSDB Service Registry",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/loadService.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "unloadService": {
+            "main": "./lib/actions/unloadService.js",
+            "title": "Unload service",
+            "description": "Removes a service description from the OSDB Service Registry",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/unloadService.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "describeService": {
+            "main": "./lib/actions/describeService.js",
+            "title": "Describe service",
+            "description": "Returns a description of a given service",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/describeService.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

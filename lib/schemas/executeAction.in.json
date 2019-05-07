@@ -1,0 +1,53 @@
+{
+    "type": "object",
+    "properties": {
+        "serviceId": {
+            "required": true,
+            "type": "string"
+        },
+        "actionId": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "action_specific_property1": {
+                    "description": "An example action specific property. There may be 0, 1 or more action specific properties, each holding an action specific parameter value.",
+                    "type": "string"
+                },
+                "action_specific_property2": {
+                    "description": "An example action specific property. There may be 0, 1 or more action specific properties, each holding an action specific parameter value.",
+                    "type": "string"
+                },
+                "osdb_body_data_encoding": {
+                    "description": "The media type of the data associated with osdb:body_data_raw or osdb:body_data_src_url. In the case of osdb:body_data_raw, this is the media type before base64 encoding.",
+                    "type": "string"
+                },
+                "osdb_body_data_raw": {
+                    "description": "Input data for the action (e.g. CSV data). The data must be base64 encoded by the client. Alternatively, clients can use osdb:body_data_src_url to supply the input data via a web-accessible document.",
+                    "format": "byte",
+                    "type": "string"
+                },
+                "osdb_body_data_src_url": {
+                    "description": "URL of a resource containing input data for the action (e.g. CSV data). Clients can instead use osdb:body_data_raw to supply the input data directly.",
+                    "format": "uri",
+                    "type": "string"
+                },
+                "osdb_output_type": {
+                    "description": "An OSDB-specific parameter controlling the action output type. If omitted, the native action output is returned.",
+                    "enum": [
+                        "url_only",
+                        "generate_rdf",
+                        "display_rdf"
+                    ],
+                    "type": "string"
+                },
+                "osdb_response_format": {
+                    "description": "Preferred response MIME type. This must be an output MIME type supported natively by the action or, if 'osdb:output_type' is set to 'generate_rdf', a Virtuoso Sponger output format. i.e. 'application/ld+json', 'text/turtle' or 'application/rdf+xml'.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    }
+}
